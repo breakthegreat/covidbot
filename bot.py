@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import tweepy
 import time
 import main
@@ -31,6 +34,8 @@ def read_last_tweet(FILE_NAME):
     last_seen_id = file_read.read().strip()
     file_read.close()
     return last_seen_id
+
+
 def store_last_tweet(FILE_NAME, tweet):
     file_write = open(FILE_NAME, "w")
     file_write.write(tweet)
