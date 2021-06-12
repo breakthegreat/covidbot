@@ -5,11 +5,11 @@ import locale
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
-consumer_key = "p3AHgsrIVRAU9w6KIHi4lc8hE"
-consumer_secret = "H32uWhmcuYfe3YRC2bB8A3yudGXmCb2JxyXxj54EQrs5mhOD4W"
+consumer_key = "XXXXXXXX"
+consumer_secret = "XXXXXX"
 
-key = "1403551620680589312-qFuSjzXcpngQARw31rESUzLj0jNNvp"
-secret = "B2iXnJg4fxMyxcCZsoH6dPEG40qg3w3ov4gOYGA02SRAZ"
+key = "XXXXXXXXX"
+secret = "XXXXXXXXXX"
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
