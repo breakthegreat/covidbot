@@ -94,8 +94,7 @@ while True:
     status()
     print("Looking for reply...")
     reply()
-    import sys
-    import time
+
 
     for i in range(15, -1, -1):
         sys.stdout.write("\rWaiting : " + str(i) + ' seconds')
