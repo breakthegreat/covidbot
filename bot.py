@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import os
+import sys
 import tweepy
 import time
-import main
+import getFile
 import locale
 
 locale.setlocale(locale.LC_ALL, 'en_US')
@@ -66,10 +67,11 @@ def reply():
 
 
 def status():
-    date = main.getDate()
-    cases = main.getCases()
+    os.system("getFile.py")
+    date = getFile.getDate()
+    cases = getFile.getCases()
     cases = locale.format_string("%d", int(cases), grouping=True)
-    deaths = main.getDeaths()
+    deaths = getFile.getDeaths()
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
     oldTweet = read_last_tweet(covid)
@@ -88,7 +90,17 @@ def status():
 
 
 while True:
+
     status()
     print("Looking for reply...")
     reply()
-    time.sleep(12)
+    import sys
+    import time
+
+    for i in range(15, -1, -1):
+        sys.stdout.write("\rWaiting : " + str(i) + ' seconds')
+        sys.stdout.flush()
+        if i == 0:
+            sys.stdout.write("\r")
+
+        time.sleep(1)
