@@ -8,11 +8,11 @@ import locale
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
-consumer_key = "XXXXXXXX"
-consumer_secret = "XXXXXX"
+consumer_key = "p3AHgsrIVRAU9w6KIHi4lc8hE"
+consumer_secret = "H32uWhmcuYfe3YRC2bB8A3yudGXmCb2JxyXxj54EQrs5mhOD4W"
 
-key = "XXXXXXXXX"
-secret = "XXXXXXXXXX"
+key = "1403551620680589312-qFuSjzXcpngQARw31rESUzLj0jNNvp"
+secret = "B2iXnJg4fxMyxcCZsoH6dPEG40qg3w3ov4gOYGA02SRAZ"
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
@@ -75,10 +75,11 @@ def status():
     oldTweet = read_last_tweet(covid)
 
     if tweet != oldTweet:
+        store_last_tweet(covid, tweet)
         try:
             api.update_status(tweet)
             print("Status update : " + tweet)
-            store_last_tweet(covid, tweet)
+
         except tweepy.TweepError as e:
             print(e.reason)
     else:
