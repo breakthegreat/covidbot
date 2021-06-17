@@ -83,11 +83,13 @@ def status():
     if tweet != oldTweet:
         store_last_tweet(covid, tweet)
         try:
-            api.update_status(tweet)
+            api.update_status(tweet + "\n\n Source: nytimes")
             print("Status update : " + tweet)
 
         except tweepy.TweepError as e:
             print(e.reason)
+    else:
+        print("Nothing new, let's move on")
 
 
 def replyCovidState():
@@ -104,10 +106,11 @@ def replyCovidState():
 
                     print("Found tweet: " + tweet.full_text)
                     api.update_status(
-                        "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + "As of " + str(
-                            us.date)
-                        + " there was " + cases + " cases and " + deaths + " deaths in " +
-                        listState[x].name + " 🚨 ",
+                        "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 \n\n🇺🇸 State of : " +
+                        listState[x].name + "\n\n📅 As of " + str(
+                            us.date) + ":\n"
+                        + "😷 Cases: " + cases + " \n⚰️ Deaths: " + deaths + "\n\n Source: nytimes " + "\n\n#Covid" +
+                        listState[x].name + " #Covid",
                         tweet.id)
 
                     api.create_favorite(tweet.id)
@@ -118,18 +121,21 @@ def replyCovidState():
             print(e.reason)
 
 
-while True:
-
-    status()
-
-    replyCovidState()
-    replyCovidUSA()
-
-    for i in range(15, -1, -1):
+def sleep(sec):
+    for i in range(sec, -1, -1):
         sys.stdout.write("\rWaiting : " + str(i) + ' seconds')
         sys.stdout.flush()
         if i == 0:
             sys.stdout.write("\r")
-
         time.sleep(1)
-#==================================END=======================================
+
+
+while True:
+    status()
+
+    replyCovidState()
+
+    replyCovidUSA()
+    sleep(15)
+
+# ==================================END=======================================
