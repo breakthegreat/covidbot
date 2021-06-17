@@ -10,7 +10,7 @@ class State:
         self.deaths = -1
 
 
-list = []
+listState = []
 url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv'
 r = requests.get(url, allow_redirects=True)
 open('us-states.csv', 'wb').write(r.content)
@@ -29,7 +29,7 @@ for line in Lines:
     s1.cases = line[3]
     s1.deaths = line[4]
 
-    list.append(s1)
+    listState.append(s1)
     count += 1
-print(str(count) + " States added")
+
 

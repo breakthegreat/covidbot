@@ -7,6 +7,7 @@ import time
 import US_General
 import locale
 from State import State
+from State import listState
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
@@ -50,29 +51,30 @@ def store_last_seen(FILE_NAME, last_seen_id):
     file_write.close()
 
 
-def reply():
+def replyCovidUSA():
     tweets = api.mentions_timeline(read_last_seen(last_seen))
     for tweet in reversed(tweets):
-        try:
-            print("Found tweet: " + tweet.text)
-            api.update_status("@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
+        if "USA" or "United States" in tweet.full_text.lower():
+            try:
+                print("Found tweet: " + tweet.text)
+                api.update_status("@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
                               tweet.id)
-            api.retweet(tweet.id)
-            api.create_favorite(tweet.id)
 
-            print("Retweet done! \n Tweet liked \n Tweet ID : " + str(tweet.id))
-            store_last_seen(last_seen, tweet.id)
+                api.create_favorite(tweet.id)
 
-        except tweepy.TweepError as e:
-            print(e.reason)
+                print("Tweet liked \n Tweet ID : " + str(tweet.id))
+                store_last_seen(last_seen, tweet.id)
+
+            except tweepy.TweepError as e:
+                print(e.reason)
 
 
 def status():
     os.system("US_General.py")
-    date = US_General.getDate()
-    cases = US_General.getCases()
+    date = US_General.date
+    cases = US_General.cases
     cases = locale.format_string("%d", int(cases), grouping=True)
-    deaths = US_General.getDeaths()
+    deaths = US_General.deaths
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
     oldTweet = read_last_tweet(covid)
@@ -85,18 +87,44 @@ def status():
 
         except tweepy.TweepError as e:
             print(e.reason)
-    else:
-        print("nothing new, moving on!")
+
     return tweet
 
 
+def replyCovidState():
+
+    tweets = api.mentions_timeline(read_last_seen(last_seen), tweet_mode="extended")
+    for tweet in reversed(tweets):
+        try:
+            for x in range(len(listState)):
+
+                if listState[x].name.lower() in tweet.full_text.lower():
+                    cases = listState[x].cases
+                    cases = locale.format_string("%d", int(cases), grouping=True)
+                    deaths = listState[x].deaths
+                    deaths = locale.format_string("%d", int(deaths), grouping=True)
+
+                    print("Found tweet: " + tweet.full_text)
+                    api.update_status(
+                        "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + "As of " + US_General.getDate()
+                        + " there was " + cases + " cases and " + deaths + " deaths in " +
+                        listState[x].name + " 🚨 ",
+                        tweet.id)
+
+                    api.create_favorite(tweet.id)
+                    print("Tweet liked \n Tweet ID : " + str(tweet.id))
+                    store_last_seen(last_seen, tweet.id)
+
+        except tweepy.TweepError as e:
+            print(e.reason)
 
 
 while True:
 
     status()
-    print("Looking for reply...")
-    reply()
+
+    replyCovidState()
+    replyCovidUSA()
 
     for i in range(15, -1, -1):
         sys.stdout.write("\rWaiting : " + str(i) + ' seconds')

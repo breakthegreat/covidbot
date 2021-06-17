@@ -17,13 +17,13 @@ confirmed_cases = line[3]
 confirmed_deaths = line[4]
 
 
-def getDate():
-    return date
-
-
-def getCases():
-    return cases
-
-
-def getDeaths():
-    return deaths
+# def getDate():
+#     return date
+#
+#
+# def getCases():
+#     return cases
+#
+#
+# def getDeaths():
+#     return deaths
