@@ -1,7 +1,6 @@
 import requests
 
 url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us.csv'
-
 r = requests.get(url, allow_redirects=True)
 open('us.csv', 'wb').write(r.content)
 

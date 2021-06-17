@@ -4,8 +4,9 @@ import os
 import sys
 import tweepy
 import time
-import getFile
+import US_General
 import locale
+from State import State
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
@@ -67,11 +68,11 @@ def reply():
 
 
 def status():
-    os.system("getFile.py")
-    date = getFile.getDate()
-    cases = getFile.getCases()
+    os.system("US_General.py")
+    date = US_General.getDate()
+    cases = US_General.getCases()
     cases = locale.format_string("%d", int(cases), grouping=True)
-    deaths = getFile.getDeaths()
+    deaths = US_General.getDeaths()
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
     oldTweet = read_last_tweet(covid)
@@ -89,12 +90,13 @@ def status():
     return tweet
 
 
+
+
 while True:
 
     status()
     print("Looking for reply...")
     reply()
-
 
     for i in range(15, -1, -1):
         sys.stdout.write("\rWaiting : " + str(i) + ' seconds')
