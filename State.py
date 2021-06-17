@@ -3,12 +3,12 @@ import requests
 
 class State:
 
-
     def __init__(self):
         self.date = "00-00-0000"
         self.name = "Unknown"
         self.cases = -1
         self.deaths = -1
+
 
 list = []
 url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv'
@@ -22,7 +22,6 @@ Lines.pop(0)
 
 count = 0
 for line in Lines:
-
     line = Lines[count].split(',')
     s1 = State()
     s1.date = line[0]
@@ -33,5 +32,4 @@ for line in Lines:
     list.append(s1)
     count += 1
 print(str(count) + " States added")
-print(list[0].name)
 
