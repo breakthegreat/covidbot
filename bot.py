@@ -6,7 +6,7 @@ import tweepy
 import time
 import US_General
 import locale
-from State import State
+from US_General import us
 from State import listState
 
 locale.setlocale(locale.LC_ALL, 'en_US')
@@ -57,8 +57,9 @@ def replyCovidUSA():
         if "USA" or "United States" in tweet.full_text.lower():
             try:
                 print("Found tweet: " + tweet.text)
-                api.update_status("@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
-                              tweet.id)
+                api.update_status(
+                    "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
+                    tweet.id)
 
                 api.create_favorite(tweet.id)
 
@@ -70,13 +71,13 @@ def replyCovidUSA():
 
 
 def status():
-    os.system("US_General.py")
-    date = US_General.date
-    cases = US_General.cases
+    date = us.date
+    cases = us.cases
     cases = locale.format_string("%d", int(cases), grouping=True)
-    deaths = US_General.deaths
+    deaths = us.deaths
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
+
     oldTweet = read_last_tweet(covid)
 
     if tweet != oldTweet:
@@ -88,11 +89,8 @@ def status():
         except tweepy.TweepError as e:
             print(e.reason)
 
-    return tweet
-
 
 def replyCovidState():
-
     tweets = api.mentions_timeline(read_last_seen(last_seen), tweet_mode="extended")
     for tweet in reversed(tweets):
         try:
@@ -106,7 +104,8 @@ def replyCovidState():
 
                     print("Found tweet: " + tweet.full_text)
                     api.update_status(
-                        "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + "As of " + US_General.getDate()
+                        "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + "As of " + str(
+                            us.date)
                         + " there was " + cases + " cases and " + deaths + " deaths in " +
                         listState[x].name + " 🚨 ",
                         tweet.id)
