@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+
+
 import tweepy
 import time
-import US_General
+
 import locale
 from US_General import us
 from State import listState
@@ -83,7 +85,7 @@ def status():
     if tweet != oldTweet:
         store_last_tweet(covid, tweet)
         try:
-            api.update_status(tweet + "\n\n Source: nytimes")
+            api.update_status(tweet + "\n\n Source: nytimes" + "\n\n#Covid19 #CovidUSA #CovidAmerica #coronavirus #covidcases #coviddeaths #covidstats")
             print("Status update : " + tweet)
 
         except tweepy.TweepError as e:
@@ -110,7 +112,7 @@ def replyCovidState():
                         listState[x].name + "\n\n📅 As of " + str(
                             us.date) + ":\n"
                         + "😷 Cases: " + cases + " \n⚰️ Deaths: " + deaths + "\n\n Source: nytimes " + "\n\n#Covid" +
-                        listState[x].name + " #Covid",
+                        listState[x].name.replace(" ", "") + " #Covid",
                         tweet.id)
 
                     api.create_favorite(tweet.id)
