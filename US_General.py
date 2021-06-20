@@ -3,7 +3,7 @@ import requests
 
 class USCovid:
     def __init__(self):
-        url = 'https://raw.githubusercontent.com/breakthegreat/covidbot/master/us.csv'
+        url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us.csv'
         r = requests.get(url, allow_redirects=True)
         open('us.csv', 'wb').write(r.content)
 
