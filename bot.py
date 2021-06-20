@@ -95,7 +95,7 @@ def status():
             print(e.reason)
     else:
         print("Nothing new, let's move on")
-
+    return tweet
 
 def replyCovidState():
     s1 = USCovid()
