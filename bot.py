@@ -57,11 +57,11 @@ def store_last_seen(FILE_NAME, last_seen_id):
 def replyCovidUSA():
     tweets = api.mentions_timeline(read_last_seen(last_seen))
     for tweet in reversed(tweets):
-        if "USA" or "United States" in tweet.full_text.lower():
+        if "USA".lower() or "United States".lower() in tweet.full_text.lower():
             try:
                 print("Found tweet: " + tweet.text)
                 api.update_status(
-                    "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + str(status()),
+                    "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
                     tweet.id)
 
                 api.create_favorite(tweet.id)
@@ -135,7 +135,8 @@ def sleep(sec):
             sys.stdout.write("\r")
         time.sleep(1)
 
-
+print("============================================ COVIDBOT 1.10 ============================================\n"
+      "============================================ READY FOR DUTY ============================================")
 while True:
     status()
 

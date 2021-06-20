@@ -16,7 +16,7 @@ class USCovid:
         self.cases = line[1]
         self.deaths = line[2]
 
-
+print("============================================ US_General.py loaded ============================================")
 
 # def getDate():
 #     return date
