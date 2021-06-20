@@ -3,12 +3,13 @@
 import os
 import sys
 
-
 import tweepy
 import time
-
+import random
 import locale
-from US_General import us
+
+
+from US_General import USCovid
 from State import listState
 
 locale.setlocale(locale.LC_ALL, 'en_US')
@@ -60,7 +61,7 @@ def replyCovidUSA():
             try:
                 print("Found tweet: " + tweet.text)
                 api.update_status(
-                    "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + status(),
+                    "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 " + str(status()),
                     tweet.id)
 
                 api.create_favorite(tweet.id)
@@ -73,19 +74,21 @@ def replyCovidUSA():
 
 
 def status():
-    date = us.date
-    cases = us.cases
+    s1 = USCovid()
+    date = s1.date
+    cases = s1.cases
     cases = locale.format_string("%d", int(cases), grouping=True)
-    deaths = us.deaths
+    deaths = s1.deaths
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
-
+    print(tweet)
     oldTweet = read_last_tweet(covid)
-
+    print(oldTweet)
     if tweet != oldTweet:
         store_last_tweet(covid, tweet)
         try:
-            api.update_status(tweet + "\n\n Source: nytimes" + "\n\n#Covid19 #CovidUSA #CovidAmerica #coronavirus #covidcases #coviddeaths #covidstats")
+            api.update_status(
+                tweet + "\n\n Source: nytimes" + "\n\n#Covid19 #CovidUSA #CovidAmerica #coronavirus #covidcases #coviddeaths #covidstats")
             print("Status update : " + tweet)
 
         except tweepy.TweepError as e:
@@ -95,6 +98,8 @@ def status():
 
 
 def replyCovidState():
+    s1 = USCovid()
+    date = s1.date
     tweets = api.mentions_timeline(read_last_seen(last_seen), tweet_mode="extended")
     for tweet in reversed(tweets):
         try:
@@ -109,8 +114,7 @@ def replyCovidState():
                     print("Found tweet: " + tweet.full_text)
                     api.update_status(
                         "@" + tweet.user.screen_name + " 🚨 Hello " + tweet.user.screen_name + " 🚨 \n\n🇺🇸 State of : " +
-                        listState[x].name + "\n\n📅 As of " + str(
-                            us.date) + ":\n"
+                        listState[x].name + "\n\n📅 As of " + str(date) + ":\n"
                         + "😷 Cases: " + cases + " \n⚰️ Deaths: " + deaths + "\n\n Source: nytimes " + "\n\n#Covid" +
                         listState[x].name.replace(" ", "") + " #Covid",
                         tweet.id)
@@ -138,6 +142,7 @@ while True:
     replyCovidState()
 
     replyCovidUSA()
-    sleep(15)
+    randomNum = random.randint(15, 30)
+    sleep(int(randomNum))
 
 # ==================================END=======================================
