@@ -81,9 +81,9 @@ def status():
     deaths = s1.deaths
     deaths = locale.format_string("%d", int(deaths), grouping=True)
     tweet = "As of " + date + " There was " + cases + " cases and " + deaths + " deaths due to Covid in the USA."
-    print(tweet)
+
     oldTweet = read_last_tweet(covid)
-    print(oldTweet)
+
     if tweet != oldTweet:
         store_last_tweet(covid, tweet)
         try:
