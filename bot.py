@@ -88,7 +88,7 @@ def status():
         store_last_tweet(covid, tweet)
         try:
             api.update_status(
-                tweet + "\n\n Source: nytimes" + "\n\n#Covid19 #CovidUSA #CovidAmerica #coronavirus #covidcases #coviddeaths #covidstats")
+                tweet + "\n\n Source: nytimes" + "\n\n#Covid #Coronavirus #Covid19 #CovidUSA #CovidAmerica #coronavirus #covidcases #coviddeaths #covidstats")
             print("Status update : " + tweet)
 
         except tweepy.TweepError as e:
@@ -144,6 +144,6 @@ while True:
 
     replyCovidUSA()
     randomNum = random.randint(15, 30)
-    sleep(int(randomNum))
+    sleep(randomNum)
 
 # ==================================END=======================================
